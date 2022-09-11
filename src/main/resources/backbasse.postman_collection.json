@@ -1,0 +1,80 @@
+{
+	"info": {
+		"_postman_id": "b5695bef-9999-42a6-8755-29654410defe",
+		"name": "backbasse",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Best Oscar win",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8086/movie/bestPicture",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8086",
+					"path": [
+						"movie",
+						"bestPicture"
+					]
+				},
+				"description": "oscar win"
+			},
+			"response": []
+		},
+		{
+			"name": "post rating api",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"rating\" : 100\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8086/movie/rating/523",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8086",
+					"path": [
+						"movie",
+						"rating",
+						"523"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "top rated movies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8086/movie/topRatedMovies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8086",
+					"path": [
+						"movie",
+						"topRatedMovies"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
