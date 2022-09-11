@@ -1,7 +1,22 @@
-server:port: 8080
+server:
+  port: 8086
+
 spring:
-application:
-name: backbase movie api
-output:
-ansi:
-enabled: ALWAYS
+  application:
+    name: backbase
+  output:
+    ansi:
+      enabled: ALWAYS
+
+  datasource:
+   url: jdbc:postgresql://localhost:5433/postgres
+   username: postgres
+   password: abc
+  jpa:
+   show-sql: true
+   generate-ddl=: true
+
+
+#liquibase:
+ # change-log: classpath:db/changelog/liquibase-changeLog.xml
+
