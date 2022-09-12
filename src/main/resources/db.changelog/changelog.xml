@@ -1,0 +1,37 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.6.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+      <changeSet author="Punam Mankar" id="1661717533937-1">
+          <preConditions onFail="MARK_RAN">
+              <not>
+                  <tableExists tableName="academy_awards"/>
+              </not>
+          </preConditions>
+          <createTable tableName="academy_awards">
+              <column name="id" type="BIGINT" autoIncrement="true">
+                  <constraints nullable="false" primaryKey="true"/>
+              </column>
+              <column name="year" type="CLOB(1048576)"/>
+              <column name="category" type="CLOB(1048576)"/>
+              <column name="nominee" type="CLOB(1048576)"/>
+              <column name="additional_info" type="CLOB(1048576)"/>
+              <column name="won" type="CLOB(1048576)"></column>
+              <column name="rating" type="BIGINT"/>
+          </createTable>
+      </changeSet>
+    <changeSet author="Punam Mankar" id="1661717533937-2">
+        <loadData tableName="academy_awards"
+                  file="academy_awards.csv"
+                  quotchar='"'
+                  encoding="UTF-8"
+                  usePreparedStatements="true">
+            <column header="year" name="year" type="CLOB(8000)"/>
+            <column header="category" name="category" type="CLOB(8000)"/>
+            <column header="nominee" name="nominee" type="CLOB(8000)"/>
+            <column header="additional_info" name="additional_info" type="CLOB(8000)"/>
+            <column header="won" name="won" type="CLOB(8000)"/>
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

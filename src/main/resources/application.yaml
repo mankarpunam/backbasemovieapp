@@ -16,7 +16,10 @@ spring:
    show-sql: true
    generate-ddl=: true
 
+  liquibase:
+    change-log: classpath:db.changelog/liquibase-changeLog.xml
 
-#liquibase:
- # change-log: classpath:db/changelog/liquibase-changeLog.xml
+
+
+
 
