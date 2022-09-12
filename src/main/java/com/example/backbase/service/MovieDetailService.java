@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface MovieDetailService {
 
-    List<MovieDetails> getBetsOscarMovie();
+    List<MovieDetails> getBestOscarMovie();
 
     MovieDetails postRatingToMovie(Long id, MovieDTO movieDTO) throws MovieNotFoundException;
 

@@ -23,7 +23,7 @@ public class MovieDetailServiceImpl implements MovieDetailService {
     private MovieDtoToMovieMapper movieDtoToMovieMapper = Mappers.getMapper(MovieDtoToMovieMapper.class);
 
     @Override
-    public List<MovieDetails> getBetsOscarMovie() {
+    public List<MovieDetails> getBestOscarMovie() {
         MovieDetails movieDetails = new MovieDetails();
         logger.info("Fetching movie details by best picture ");
         List<MovieDetails> list = movieDetailRepository.getOscarWonMovie();

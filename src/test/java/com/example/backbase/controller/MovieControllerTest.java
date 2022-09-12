@@ -51,7 +51,7 @@ class MovieControllerTest {
         movieDetails.setAdditional_info("Tom Hooper");
         List<MovieDetails> list = new ArrayList<>();
         list.add(movieDetails);
-        when(movieDetailService.getBetsOscarMovie()).thenReturn(list);
+        when(movieDetailService.getBestOscarMovie()).thenReturn(list);
         ResponseEntity<List<MovieDetails>> responseEntity = movieController.getBestPicture();
         assertNotNull(responseEntity);
 

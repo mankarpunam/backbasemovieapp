@@ -23,7 +23,7 @@ public class MovieController {
     @GetMapping("/bestPicture")
     public ResponseEntity<List<MovieDetails>> getBestPicture() {
         logger.info("In getBest picture api");
-        List<MovieDetails> movieDetailsList = movieDetailService.getBetsOscarMovie();
+        List<MovieDetails> movieDetailsList = movieDetailService.getBestOscarMovie();
         return new ResponseEntity<>(movieDetailsList, HttpStatus.OK);
     }
 

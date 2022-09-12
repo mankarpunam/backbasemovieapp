@@ -17,7 +17,6 @@
 		<java.version>1.8</java.version>
 		<sonar.exclusions>
 		**/dto/*.java,
-		**/config/*.java,
 		**/data/*.java,
 		**/repository/*.java,
 		**/entity/*.java,
@@ -99,7 +98,20 @@
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>1.6.11</version>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>4.8.0</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-inline -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-inline</artifactId>
+			<version>4.8.0</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
