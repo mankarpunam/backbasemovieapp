@@ -22,7 +22,7 @@ public class MovieDetails implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "year")
+    @Column(name = "win_year")
     private String year;
 
     @Column(name = "category")

@@ -14,7 +14,7 @@ spring:
    password: abc
   jpa:
    show-sql: true
-   generate-ddl=: true
+   generate-ddl=: false
 
   liquibase:
     change-log: classpath:db.changelog/liquibase-changeLog.xml

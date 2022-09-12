@@ -64,7 +64,7 @@ class MovieControllerTest {
         assertNotNull(responseEntity);
     }
 
-    @Test()
+ @Test()
     void testPostRatingToMovieWithException() throws MovieNotFoundException {
         when(movieDetailService.postRatingToMovie(null, null)).thenReturn(null);
         MovieNotFoundException thrown = assertThrows(
@@ -75,6 +75,7 @@ class MovieControllerTest {
         assertTrue(thrown.getMessage().contains("Movie not found for id"));
 
     }
+
 
     @Test()
     void testFindTopRatedMovies() throws MovieNotFoundException {
