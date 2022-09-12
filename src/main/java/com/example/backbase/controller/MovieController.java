@@ -23,15 +23,13 @@ public class MovieController {
     @GetMapping("/bestPicture")
     public ResponseEntity<List<MovieDetails>> getBestPicture() {
         logger.info("In getBest picture api");
-        List<MovieDetails> movieDetailsList = movieDetailService.getBestOscarMovie();
-        return new ResponseEntity<>(movieDetailsList, HttpStatus.OK);
+        return new ResponseEntity<>(movieDetailService.getBestOscarMovie(), HttpStatus.OK);
     }
 
     @PatchMapping("/rating/{id}")
     public ResponseEntity<MovieDetails> postRatingToMovie(@PathVariable Long id, @RequestBody MovieDTO movieDTO) throws MovieNotFoundException {
         logger.info("In postRatingToMovie api ::post rating to movie");
-        MovieDetails movieDetails = movieDetailService.postRatingToMovie(id, movieDTO);
-        return new ResponseEntity<>(movieDetails, HttpStatus.OK);
+        return new ResponseEntity<>(movieDetailService.postRatingToMovie(id, movieDTO), HttpStatus.OK);
     }
 
     @GetMapping("/topRatedMovies")

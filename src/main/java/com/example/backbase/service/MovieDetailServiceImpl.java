@@ -27,12 +27,13 @@ public class MovieDetailServiceImpl implements MovieDetailService {
         MovieDetails movieDetails = new MovieDetails();
         logger.info("Fetching movie details by best picture ");
         List<MovieDetails> list = movieDetailRepository.getOscarWonMovie();
-        logger.info("response:: ", list);
+        logger.info("oscar winnning list :: ", list);
         return list;
     }
 
     @Override
     public MovieDetails postRatingToMovie(Long id, MovieDTO movieDTO) throws MovieNotFoundException {
+        logger.info("postRatingToMovie for movie ");
         Optional<MovieDetails> movieDetail = movieDetailRepository.findById(id);
         if (!movieDetail.isPresent()) {
             throw new MovieNotFoundException("Movie not found for id " + id);
