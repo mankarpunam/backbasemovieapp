@@ -49,7 +49,7 @@ public class MovieDetailServiceImplTest {
         assertNotNull(movieDetailsList);
     }
 
-    @Test
+  /*  @Test
     void testPostRatingToMovie() throws MovieNotFoundException {
         MovieDetails request = new MovieDetails();
         request.setWon("YES");
@@ -62,9 +62,9 @@ public class MovieDetailServiceImplTest {
         when(movieRepository.findByMovieId(movieDTO.getMovieId())).thenReturn(movie);
         Movie response = movieDetailService.postRatingToMovie(10L, movieDTO);
         assertNotNull(response);
-    }
+    }*/
 
-    @Test()
+  /*  @Test()
     void testPostRatingToMovieException() throws MovieNotFoundException {
         when(movieRepository.findByMovieId(any())).thenReturn(null);
         MovieNotFoundException thrown = assertThrows(
@@ -103,5 +103,5 @@ public class MovieDetailServiceImplTest {
         when(movieRepository.getTopRatedMovies()).thenReturn(movieList);
         List<Movie> response = movieDetailService.findTopRatedMovie();
         assertNotNull(response);
-    }
+    }*/
 }

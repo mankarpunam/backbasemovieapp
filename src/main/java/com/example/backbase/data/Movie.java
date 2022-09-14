@@ -6,9 +6,8 @@ import lombok.Generated;
 import lombok.ToString;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @ToString
@@ -27,13 +26,21 @@ public class Movie implements Serializable {
     @Column(name = "movie_name")
     private String movieName;
 
-    @Min(0)
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "movie_id", referencedColumnName = "movie_id")
+    private List<Rating> rating;
+
+    public void setRating(List<Rating> rating) {
+        this.rating = rating;
+    }
+
+    /* @Min(0)
     @Max(5)
     @Column(name = "rating")
     private Long rating;
 
     @Column(name = "count")
-    private Integer count;
+    private Integer count;*/
 
 
 }

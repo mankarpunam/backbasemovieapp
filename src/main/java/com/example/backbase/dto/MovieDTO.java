@@ -14,8 +14,8 @@ import javax.validation.constraints.Min;
 public class MovieDTO {
     private Long movieId;
     private String movieName;
-    @Min(0)
+  /*  @Min(0)
     @Max(5)
     private Long rating;
-    private Integer count;
+    private Integer count;*/
 }

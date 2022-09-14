@@ -2,12 +2,15 @@ package com.example.backbase.service;
 
 import com.example.backbase.data.Movie;
 import com.example.backbase.data.MovieDetails;
-import com.example.backbase.dto.MovieDTO;
+import com.example.backbase.data.Rating;
+import com.example.backbase.dto.RatingDTO;
 import com.example.backbase.exception.MovieException;
 import com.example.backbase.exception.MovieNotFoundException;
 import com.example.backbase.mapper.MovieDtoToMovieMapper;
+import com.example.backbase.mapper.RatingDtoToRatingMapper;
 import com.example.backbase.repository.MovieDetailRepository;
 import com.example.backbase.repository.MovieRepository;
+import com.example.backbase.repository.RatingRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mapstruct.factory.Mappers;
@@ -15,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MovieDetailServiceImpl implements MovieDetailService {
@@ -25,7 +29,11 @@ public class MovieDetailServiceImpl implements MovieDetailService {
     @Autowired
     MovieRepository movieRepository;
 
+    @Autowired
+    RatingRepository ratingRepository;
+
     private MovieDtoToMovieMapper movieDtoToMovieMapper = Mappers.getMapper(MovieDtoToMovieMapper.class);
+    private RatingDtoToRatingMapper ratingDtoToRatingMapper = Mappers.getMapper(RatingDtoToRatingMapper.class);
 
     private static final String YES = "YES";
     private static final String CATEGORY = "Best Picture";
@@ -43,7 +51,7 @@ public class MovieDetailServiceImpl implements MovieDetailService {
         return movieDetailsList;
     }
 
-    @Override
+   /* @Override
     public Movie postRatingToMovie(Long movieId, MovieDTO movieDTO) throws MovieNotFoundException {
         logger.info("In MovieDetailServiceImpl post rating to movies");
         Movie movieFromDb = movieRepository.findByMovieId(movieId);
@@ -74,5 +82,38 @@ public class MovieDetailServiceImpl implements MovieDetailService {
     public List<Movie> findTopRatedMovie() {
         List<Movie> movieList = movieRepository.getTopRatedMovies();
         return movieList;
+    }*/
+
+    public Rating postRatingToMovie(Long movieId, RatingDTO ratingDTO) throws MovieNotFoundException {
+        logger.info("In MovieDetailServiceImpl post rating to movies");
+        Optional<Movie> movie = movieRepository.findById(movieId);
+        if (!movie.isPresent()) {
+            throw new MovieNotFoundException("Movie not found for id " + movieId);
+        }
+        List<Rating> ratingFromDb = ratingRepository.findByMovieId(movie.get().getMovieId());
+        Rating rating = new Rating();
+        if (!ratingFromDb.isEmpty()) {
+            ratingFromDb.forEach(obj -> {
+                if (obj.getMovieId().equals(movie.get().getMovieId())) {
+                    int count = obj.getCount(); //sadhya rahu dya liquibase script change kare aprynt
+                    ratingDTO.setCount(++count);
+                    rating.setCount(++count);
+                    rating.setRating(ratingDTO.getRating());
+                    rating.setMovieId(obj.getMovieId());
+                }
+            });
+        } else {
+            rating.setRating(ratingDTO.getRating());
+            rating.setMovieId(movieId);
+            rating.setCount(++i);
+        }
+        return ratingRepository.save(rating);
     }
+
+    @Override
+    public List<Rating> findTopRatedMovie() {
+        List<Rating> ratingList = ratingRepository.getTopRatedMovies();
+        return ratingList;
+    }
+
 }

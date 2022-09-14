@@ -64,7 +64,7 @@ class MovieControllerTest {
 
     }
 
-    @Test()
+  /*  @Test()
     void testPostRatingToMovie() throws MovieNotFoundException {
         Movie movie = new Movie();
         movie.setMovieId(10L);
@@ -76,12 +76,12 @@ class MovieControllerTest {
         when(movieDetailService.postRatingToMovie(10L, movieDTO)).thenReturn(movie);
         ResponseEntity<Movie> responseEntity = movieController.postRatingToMovie(10L, movieDTO);
         assertNotNull(responseEntity);
-    }
+    }*/
 
-    @Test()
+    /*@Test()
     void testFindTopRatedMovies() throws MovieNotFoundException {
         when(movieDetailService.findTopRatedMovie()).thenReturn(new ArrayList<>());
         ResponseEntity<List<Movie>> responseEntity = movieController.findTopRatedMovies();
         assertNotNull(responseEntity);
-    }
+    }*/
 }

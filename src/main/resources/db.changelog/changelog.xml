@@ -25,12 +25,35 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="movie_name" type="CLOB(1048576)"/>
+          <!--  <column name="rating" type="BIGINT"/>
+            <column name="count" type="numeric"/>-->
+        </createTable>
+    </changeSet>
+    <changeSet author="Punam Mankar" id="1661717533937-3">
+        <createTable tableName="rating">
+            <column name="rating_id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
             <column name="rating" type="BIGINT"/>
-            <column name="count" type="numeric"/>
+            <column name="movie_id" type="BIGINT"/>
+            <column name="count" type="numeric">
+            </column>
         </createTable>
     </changeSet>
 
-    <changeSet author="Punam Mankar" id="1661717533937-3">
+     <changeSet author="Punam Mankar" id="1661717533937-3.1">
+     <addNotNullConstraint columnName="count" defaultNullValue="0" columnDataType="numeric" tableName="rating"/>
+     </changeSet>
+
+     <changeSet author="Punam Mankar" id="1661717533937-3.2">
+         <addNotNullConstraint columnName="rating" defaultNullValue="0" columnDataType="BIGINT" tableName="rating"/>
+     </changeSet>
+
+    <changeSet author="punam (generated)" id="1661717533937-14">
+        <addForeignKeyConstraint baseColumnNames="movie_id" baseTableName="rating" constraintName="FKcsmt91lxhsicbupowmkll1854" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="movie_id" referencedTableName="movie" validate="true"/>
+    </changeSet>
+
+    <changeSet author="Punam Mankar" id="1661717533937-4">
         <loadData tableName="academy_awards"
                   file="academy_awards.csv"
                   quotchar='"'
@@ -43,7 +66,7 @@
             <column header="won" name="won" type="CLOB(8000)"/>
         </loadData>
     </changeSet>
-    <changeSet author="Punam Mankar" id="1661717533937-4">
+    <changeSet author="Punam Mankar" id="1661717533937-5">
         <sql>insert into movie (movie_name)
              select DISTINCT(nominee)
              from academy_awards
