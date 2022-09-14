@@ -19,8 +19,8 @@ public class MovieDetails implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @Column(name = "academy_id")
+    private Integer academyId;
 
     @Column(name = "win_year")
     private String year;
@@ -32,13 +32,10 @@ public class MovieDetails implements Serializable {
     private String nominee;
 
     @Column(name = "additional_info")
-    private String additional_info;
+    private String additionalInfo;
 
     @Column(name = "won")
     private String won;
 
-    @Nullable
-    @Column(name = "rating")
-    private Integer rating;
 }
 

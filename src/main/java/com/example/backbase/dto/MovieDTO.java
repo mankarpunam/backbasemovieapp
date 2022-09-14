@@ -11,11 +11,6 @@ import javax.persistence.Column;
 @ToString
 @EqualsAndHashCode
 public class MovieDTO {
-    private Integer id;
-    private String year;
-    private String category;
-    private String nominee;
-    private String additional_info;
-    private String won;
-    private Integer rating;
+    private Integer movie_id;
+    private String movie_name;
 }

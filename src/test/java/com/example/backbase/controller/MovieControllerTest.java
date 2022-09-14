@@ -1,11 +1,16 @@
 package com.example.backbase.controller;
 
+import com.example.backbase.data.Movie;
 import com.example.backbase.data.MovieDetails;
-import com.example.backbase.dto.MovieDTO;
+import com.example.backbase.data.Rating;
+import com.example.backbase.dto.RatingDTO;
 import com.example.backbase.exception.MovieNotFoundException;
+import com.example.backbase.repository.MovieDetailRepository;
+import com.example.backbase.repository.MovieRepository;
 import com.example.backbase.service.MovieDetailService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -29,9 +35,13 @@ class MovieControllerTest {
     int randomServerPort;
 
     @Mock
+    private MovieDetailRepository movieDetailRepository;
+    @Mock
     private MovieDetailService movieDetailService;
-    @Autowired
+    @InjectMocks
     private MovieController movieController;
+    @Mock
+    private MovieRepository movieRepository;
     private static String BASE_URL;
 
     @BeforeAll
@@ -40,47 +50,41 @@ class MovieControllerTest {
     }
 
     @Test
-    void testGetBestPicture() throws URISyntaxException {
+    void testGetBestPicture() throws URISyntaxException, MovieNotFoundException {
         MovieDetails movieDetails = new MovieDetails();
-        movieDetails.setId(1L);
+        movieDetails.setAcademyId(1);
         movieDetails.setYear("2018");
         movieDetails.setCategory("Directing");
         movieDetails.setNominee("The King's Speech");
-        movieDetails.setRating(10);
         movieDetails.setWon("YES");
-        movieDetails.setAdditional_info("Tom Hooper");
+        movieDetails.setAdditionalInfo("Tom Hooper");
         List<MovieDetails> list = new ArrayList<>();
         list.add(movieDetails);
-        when(movieDetailService.getBestOscarMovie()).thenReturn(list);
-        ResponseEntity<List<MovieDetails>> responseEntity = movieController.getBestPicture();
+        when(movieDetailService.getBestPictureWonOscar("The King's Speech")).thenReturn(list);
+        when(movieDetailRepository.findByNomineeAndWonAndCategory("he King's Speech", "YES", "Bet Picture")).thenReturn(list);
+        ResponseEntity<List<MovieDetails>> responseEntity = movieController.getBestPictureWonOscar("The King's Speech");
         assertNotNull(responseEntity);
 
     }
 
     @Test()
     void testPostRatingToMovie() throws MovieNotFoundException {
-        when(movieDetailService.postRatingToMovie(10L, new MovieDTO())).thenReturn(new MovieDetails());
-        ResponseEntity<MovieDetails> responseEntity = movieController.postRatingToMovie(10L, new MovieDTO());
+        Movie movie = new Movie();
+        movie.setMovieId(10L);
+        List<Movie> movieList = new ArrayList<>();
+        movieList.add(movie);
+        Object Optional;
+        when(movieRepository.findById(any())).thenReturn(any());
+        when(movieDetailService.postRatingToMovie(any(), any())).thenReturn(any());
+        ResponseEntity<Rating> responseEntity = movieController.postRatingToMovie(10L, new RatingDTO());
         assertNotNull(responseEntity);
-    }
-
- @Test()
-    void testPostRatingToMovieWithException() throws MovieNotFoundException {
-        when(movieDetailService.postRatingToMovie(null, null)).thenReturn(null);
-        MovieNotFoundException thrown = assertThrows(
-                MovieNotFoundException.class,
-                () -> movieController.postRatingToMovie(anyLong(), any()),
-                "Expected postRatingToMovie() to throw, but it didn't"
-        );
-        assertTrue(thrown.getMessage().contains("Movie not found for id"));
-
     }
 
 
     @Test()
     void testFindTopRatedMovies() throws MovieNotFoundException {
         when(movieDetailService.findTopRatedMovie()).thenReturn(new ArrayList<>());
-        ResponseEntity<List<MovieDetails>> responseEntity = movieController.findTopRatedMovies();
+        ResponseEntity<List<Rating>> responseEntity = movieController.findTopRatedMovies();
         assertNotNull(responseEntity);
     }
 }
