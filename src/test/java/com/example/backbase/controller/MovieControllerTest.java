@@ -2,8 +2,7 @@ package com.example.backbase.controller;
 
 import com.example.backbase.data.Movie;
 import com.example.backbase.data.MovieDetails;
-import com.example.backbase.data.Rating;
-import com.example.backbase.dto.RatingDTO;
+import com.example.backbase.dto.MovieDTO;
 import com.example.backbase.exception.MovieNotFoundException;
 import com.example.backbase.repository.MovieDetailRepository;
 import com.example.backbase.repository.MovieRepository;
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -73,18 +70,18 @@ class MovieControllerTest {
         movie.setMovieId(10L);
         List<Movie> movieList = new ArrayList<>();
         movieList.add(movie);
-        Object Optional;
-        when(movieRepository.findById(any())).thenReturn(any());
-        when(movieDetailService.postRatingToMovie(any(), any())).thenReturn(any());
-        ResponseEntity<Rating> responseEntity = movieController.postRatingToMovie(10L, new RatingDTO());
+        MovieDTO movieDTO = new MovieDTO();
+        movieDTO.setMovieName("Avengers");
+        when(movieRepository.findByMovieId(10L)).thenReturn(movie);
+        when(movieDetailService.postRatingToMovie(10L, movieDTO)).thenReturn(movie);
+        ResponseEntity<Movie> responseEntity = movieController.postRatingToMovie(10L, movieDTO);
         assertNotNull(responseEntity);
     }
-
 
     @Test()
     void testFindTopRatedMovies() throws MovieNotFoundException {
         when(movieDetailService.findTopRatedMovie()).thenReturn(new ArrayList<>());
-        ResponseEntity<List<Rating>> responseEntity = movieController.findTopRatedMovies();
+        ResponseEntity<List<Movie>> responseEntity = movieController.findTopRatedMovies();
         assertNotNull(responseEntity);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.backbase.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Setter
 @Getter
+@Generated
 public class ErrorResponse {
     private static final long serialVersionUID = 990514568261392629L;
 

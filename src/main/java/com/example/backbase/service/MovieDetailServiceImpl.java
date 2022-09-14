@@ -2,14 +2,12 @@ package com.example.backbase.service;
 
 import com.example.backbase.data.Movie;
 import com.example.backbase.data.MovieDetails;
-import com.example.backbase.data.Rating;
-import com.example.backbase.dto.RatingDTO;
+import com.example.backbase.dto.MovieDTO;
+import com.example.backbase.exception.MovieException;
 import com.example.backbase.exception.MovieNotFoundException;
 import com.example.backbase.mapper.MovieDtoToMovieMapper;
-import com.example.backbase.mapper.RatingDtoToRatingMapper;
 import com.example.backbase.repository.MovieDetailRepository;
 import com.example.backbase.repository.MovieRepository;
-import com.example.backbase.repository.RatingRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mapstruct.factory.Mappers;
@@ -17,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MovieDetailServiceImpl implements MovieDetailService {
@@ -28,11 +25,8 @@ public class MovieDetailServiceImpl implements MovieDetailService {
     @Autowired
     MovieRepository movieRepository;
 
-    @Autowired
-    RatingRepository ratingRepository;
-
     private MovieDtoToMovieMapper movieDtoToMovieMapper = Mappers.getMapper(MovieDtoToMovieMapper.class);
-    private RatingDtoToRatingMapper ratingDtoToRatingMapper = Mappers.getMapper(RatingDtoToRatingMapper.class);
+
     private static final String YES = "YES";
     private static final String CATEGORY = "Best Picture";
     Long avgRate = 0L;
@@ -42,50 +36,43 @@ public class MovieDetailServiceImpl implements MovieDetailService {
     public List<MovieDetails> getBestPictureWonOscar(String movieName) throws MovieNotFoundException {
         logger.info("Fetching movie details by best picture ");
         List<MovieDetails> movieDetailsList = movieDetailRepository.findByNomineeAndWonAndCategory(movieName, YES, CATEGORY);
-        logger.info("Fetching best picture which win oscar:{}", movieDetailsList);
+        logger.info("Fetching best picture which won oscar:{}", movieDetailsList);
+        if (movieDetailsList.isEmpty()) {
+            throw new MovieException("Movie Not Found in table: not valid movie :" + movieName);
+        }
         return movieDetailsList;
     }
 
     @Override
-    public Rating postRatingToMovie(Long movieId, RatingDTO ratingDTO) throws MovieNotFoundException {
+    public Movie postRatingToMovie(Long movieId, MovieDTO movieDTO) throws MovieNotFoundException {
         logger.info("In MovieDetailServiceImpl post rating to movies");
-        Optional<Movie> movie = movieRepository.findById(movieId);
-        if (!movie.isPresent()) {
+        Movie movieFromDb = movieRepository.findByMovieId(movieId);
+        if (movieFromDb == null) {
             throw new MovieNotFoundException("Movie not found for id " + movieId);
         }
-        List<Rating> ratingFromDb = ratingRepository.findByMovieId(movie.get().getMovieId());
+        if (movieFromDb.getCount() == null) {
+            avgRate = movieDTO.getRating();
+            movieDTO.setRating(avgRate);
+            movieDTO.setMovieId(movieFromDb.getMovieId());
+            movieDTO.setMovieName(movieFromDb.getMovieName());
+            movieDTO.setCount(++i);
 
-        if (!ratingFromDb.isEmpty()) {
-            ratingFromDb.forEach(obj -> {
-                if (obj.getMovieId().equals(movie.get().getMovieId())) {
-                    int count = obj.getCount();
-                    ratingDTO.setCount(++count);
-                    avgRate = ((obj.getRating() + ratingDTO.getRating()) / ratingDTO.getCount());
-                    ratingDTO.setRating(avgRate);
-                    ratingDTO.setMovieId(obj.getMovieId());
-                    ratingDTO.setRatingId(obj.getRatingId());
-                    Rating rating = ratingDtoToRatingMapper.map(ratingDTO);
-                    ratingRepository.save(rating);
-                }
-            });
         } else {
-            avgRate = ratingDTO.getRating();
-            ratingDTO.setRating(avgRate);
-            ratingDTO.setMovieId(movie.get().getMovieId());
-            ratingDTO.setCount(++i);
-            Rating rating = ratingDtoToRatingMapper.map(ratingDTO);
-            ratingRepository.save(rating);
-            return rating;
+            int count = movieFromDb.getCount();
+            movieDTO.setCount(++count);
+            avgRate = (movieFromDb.getRating() + movieDTO.getRating()) / movieDTO.getCount();
+            movieDTO.setRating(avgRate);
+            movieDTO.setMovieId(movieFromDb.getMovieId());
+            movieDTO.setMovieName(movieFromDb.getMovieName());
         }
-        return null;
+        Movie movie = movieDtoToMovieMapper.map(movieDTO);
+        movieRepository.save(movie);
+        return movie;
     }
-
 
     @Override
-    public List<Rating> findTopRatedMovie() {
-        List<Rating> ratingList = ratingRepository.getTopRatedMovies();
-        return ratingList;
+    public List<Movie> findTopRatedMovie() {
+        List<Movie> movieList = movieRepository.getTopRatedMovies();
+        return movieList;
     }
-
-
 }

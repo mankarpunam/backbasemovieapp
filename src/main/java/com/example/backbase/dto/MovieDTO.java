@@ -1,16 +1,21 @@
 package com.example.backbase.dto;
 
 import io.micrometer.core.lang.Nullable;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Column;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Data
 @ToString
+@Generated
 @EqualsAndHashCode
 public class MovieDTO {
-    private Integer movie_id;
-    private String movie_name;
+    private Long movieId;
+    private String movieName;
+    @Min(0)
+    @Max(5)
+    private Long rating;
+    private Integer count;
 }

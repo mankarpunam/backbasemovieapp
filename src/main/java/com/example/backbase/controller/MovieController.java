@@ -1,8 +1,8 @@
 package com.example.backbase.controller;
 
+import com.example.backbase.data.Movie;
 import com.example.backbase.data.MovieDetails;
-import com.example.backbase.data.Rating;
-import com.example.backbase.dto.RatingDTO;
+import com.example.backbase.dto.MovieDTO;
 import com.example.backbase.exception.MovieNotFoundException;
 import com.example.backbase.service.MovieDetailService;
 import org.apache.logging.log4j.LogManager;
@@ -28,14 +28,14 @@ public class MovieController {
     }
 
     @PutMapping("/rating/{movie_id}")
-    public ResponseEntity<Rating> postRatingToMovie(@PathVariable Long movie_id, @RequestBody RatingDTO ratingDTO) throws MovieNotFoundException {
+    public ResponseEntity<Movie> postRatingToMovie(@PathVariable Long movie_id, @RequestBody MovieDTO movieDTO) throws MovieNotFoundException {
         logger.info("In postRatingToMovie api ::post rating to movie");
-        Rating response = movieDetailService.postRatingToMovie(movie_id, ratingDTO);
+        Movie response = movieDetailService.postRatingToMovie(movie_id, movieDTO);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/topRatedMovies")
-    public ResponseEntity<List<Rating>> findTopRatedMovies() {
+    public ResponseEntity<List<Movie>> findTopRatedMovies() {
         logger.info("Fetching top rated movies by box office value ");
         return new ResponseEntity<>(movieDetailService.findTopRatedMovie(), HttpStatus.OK);
     }

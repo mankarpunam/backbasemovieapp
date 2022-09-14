@@ -2,6 +2,7 @@ package com.example.backbase.exception.handler;
 
 import com.example.backbase.exception.MovieException;
 import com.example.backbase.model.ErrorResponse;
+import lombok.Generated;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

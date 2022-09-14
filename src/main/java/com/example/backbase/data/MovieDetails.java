@@ -4,6 +4,7 @@ package com.example.backbase.data;
 import io.micrometer.core.lang.Nullable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Generated;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.io.Serializable;
 @Data
 @ToString
 @EqualsAndHashCode
+@Generated
 @Table(name = "academy_awards")
 @Entity
 public class MovieDetails implements Serializable {
