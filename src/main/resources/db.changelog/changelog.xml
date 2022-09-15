@@ -36,14 +36,8 @@
             </column>
             <column name="rating" type="BIGINT"/>
             <column name="movie_id" type="BIGINT"/>
-            <column name="count" type="numeric">
-            </column>
         </createTable>
     </changeSet>
-
-     <changeSet author="Punam Mankar" id="1661717533937-3.1">
-     <addNotNullConstraint columnName="count" defaultNullValue="0" columnDataType="numeric" tableName="rating"/>
-     </changeSet>
 
      <changeSet author="Punam Mankar" id="1661717533937-3.2">
          <addNotNullConstraint columnName="rating" defaultNullValue="0" columnDataType="BIGINT" tableName="rating"/>
