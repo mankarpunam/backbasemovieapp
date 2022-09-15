@@ -1,3 +1,10 @@
+User need to run user api in order to generate the token.
+That token need to be passed in Authorization header to other api.
+please refer postman collection for the same.
+Collection:
+backbasse.postman_collection.json
+
+
 If are trying to run from consol use following commmand
 
 If Profile = dev 

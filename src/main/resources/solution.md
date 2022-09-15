@@ -1,5 +1,10 @@
-Database table
+Security:
+Created JWT token authorization for authentication.
+user need to run the user api in order to fetch the token
+once user will get the token that token need to be add in Authorization header for other api.
 
+
+Database table
 1. Created academy table which will be master table which stores the movie data.(all data from csv)
 2. Movie table which will store movie data like movie id and movie name
    I have copied the best picture category movie data in movie table for now.

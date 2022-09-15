@@ -11,7 +11,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8086/movie/bestPicture",
+					"raw": "http://localhost:8086/movie/bestPicture?title=The Hurt Locker",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -20,6 +20,12 @@
 					"path": [
 						"movie",
 						"bestPicture"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "The Hurt Locker"
+						}
 					]
 				},
 				"description": "oscar win"
@@ -29,11 +35,11 @@
 		{
 			"name": "post rating api",
 			"request": {
-				"method": "PATCH",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n   \"rating\" : 100\r\n}",
+					"raw": "{\r\n   \"rating\" : 2\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -41,7 +47,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8086/movie/rating/523",
+					"raw": "http://localhost:8086/movie/rating/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -50,7 +56,7 @@
 					"path": [
 						"movie",
 						"rating",
-						"523"
+						"3"
 					]
 				}
 			},
@@ -71,6 +77,51 @@
 					"path": [
 						"movie",
 						"topRatedMovies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token generation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "user",
+							"value": "abc",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "7036cef0-259e-4e1b-8631-84f1384925d4",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8086/user",
+					"host": [
+						"localhost"
+					],
+					"port": "8086",
+					"path": [
+						"user"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
 					]
 				}
 			},
