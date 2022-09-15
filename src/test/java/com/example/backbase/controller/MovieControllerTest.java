@@ -1,21 +1,28 @@
 package com.example.backbase.controller;
 
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.example.backbase.data.Movie;
+import com.example.backbase.data.MovieDetails;
+import com.example.backbase.data.MovieWithRatings;
+import com.example.backbase.data.Rating;
+import com.example.backbase.dto.RatingDTO;
+import com.example.backbase.exception.MovieNotFoundException;
+import com.example.backbase.repository.MovieDetailRepository;
+import com.example.backbase.repository.MovieRepository;
+import com.example.backbase.service.MovieDetailService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.ResponseEntity;
 
-import com.example.backbase.data.MovieDetails;
-import com.example.backbase.exception.MovieNotFoundException;
-import com.example.backbase.repository.MovieDetailRepository;
-import com.example.backbase.repository.MovieRepository;
-import com.example.backbase.service.MovieDetailService;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
 
 @SpringBootTest(properties = "spring.profiles.active=test", webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -50,31 +57,34 @@ class MovieControllerTest {
         movieDetails.setAdditionalInfo("Tom Hooper");
         List<MovieDetails> list = new ArrayList<>();
         list.add(movieDetails);
-        //when(movieDetailService.getBestPictureWonOscar("The King's Speech")).thenReturn(list);
-        //when(movieDetailRepository.findByNomineeAndWonAndCategory("he King's Speech", "YES", "Bet Picture")).thenReturn(list);
-        //ResponseEntity<List<MovieDetails>> responseEntity = movieController.getBestPictureWonOscar("The King's Speech");
-        //assertNotNull(responseEntity);
+        when(movieDetailService.getBestPictureWonOscar("The King's Speech")).thenReturn("The movie True Grit has won the award!");
+        when(movieDetailRepository.findFirstByNomineeAndCategory("he King's Speech", "Best Picture")).thenReturn(movieDetails);
+        ResponseEntity<String> responseEntity = movieController.getBestPictureWonOscar("The King's Speech");
+        assertNotNull(responseEntity);
 
     }
 
-  /*  @Test()
+    @Test()
     void testPostRatingToMovie() throws MovieNotFoundException {
         Movie movie = new Movie();
         movie.setMovieId(10L);
         List<Movie> movieList = new ArrayList<>();
         movieList.add(movie);
-        MovieDTO movieDTO = new MovieDTO();
-        movieDTO.setMovieName("Avengers");
+        RatingDTO ratingDTO = new RatingDTO();
+        ratingDTO.setRating(10L);
+        Rating rating = new Rating();
+        rating.setRating(4L);
+        rating.setMovieId(1L);
         when(movieRepository.findByMovieId(10L)).thenReturn(movie);
-        when(movieDetailService.postRatingToMovie(10L, movieDTO)).thenReturn(movie);
-        ResponseEntity<Movie> responseEntity = movieController.postRatingToMovie(10L, movieDTO);
+        when(movieDetailService.postRatingToMovie(10L, ratingDTO)).thenReturn(rating);
+        ResponseEntity<Rating> responseEntity = movieController.postRatingToMovie(10L, ratingDTO);
         assertNotNull(responseEntity);
-    }*/
+    }
 
-    /*@Test()
+    @Test()
     void testFindTopRatedMovies() throws MovieNotFoundException {
-        when(movieDetailService.findTopRatedMovie()).thenReturn(new ArrayList<>());
-        ResponseEntity<List<Movie>> responseEntity = movieController.findTopRatedMovies();
+        when(movieDetailService.findTopRatedMovie(10)).thenReturn(new ArrayList<>());
+        ResponseEntity<List<MovieWithRatings>> responseEntity = movieController.findTopRatedMovies(10);
         assertNotNull(responseEntity);
-    }*/
+    }
 }

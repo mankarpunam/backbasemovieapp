@@ -1,10 +1,14 @@
 package com.example.backbase.service;
 
-import static org.mockito.Mockito.mock;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.example.backbase.data.Movie;
+import com.example.backbase.data.MovieDetails;
+import com.example.backbase.data.MovieWithRatings;
+import com.example.backbase.data.Rating;
+import com.example.backbase.dto.RatingDTO;
+import com.example.backbase.exception.MovieNotFoundException;
+import com.example.backbase.repository.MovieDetailRepository;
+import com.example.backbase.repository.MovieRepository;
+import com.example.backbase.repository.RatingRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,10 +16,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.example.backbase.data.MovieDetails;
-import com.example.backbase.exception.MovieNotFoundException;
-import com.example.backbase.repository.MovieDetailRepository;
-import com.example.backbase.repository.MovieRepository;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class MovieDetailServiceImplTest {
@@ -27,6 +33,9 @@ public class MovieDetailServiceImplTest {
     @Mock
     MovieRepository movieRepository;
 
+    @Mock
+    RatingRepository ratingRepository;
+
     @BeforeAll
     public static void setUp() {
         // initMocks(this);
@@ -34,37 +43,39 @@ public class MovieDetailServiceImplTest {
 
     @Test
     void testGetBestOscarMovie() throws MovieNotFoundException {
-        MovieDetails movieDetails = mock(MovieDetails.class);
+        MovieDetails movieDetails = new MovieDetails();
         movieDetails.setYear("2018");
         movieDetails.setWon("YES");
         List<MovieDetails> list = new ArrayList<>();
         list.add(movieDetails);
-        //when(movieDetailRepository.findByNomineeAndWonAndCategory("Amadeus", "YES", "Best Picture")).thenReturn(list);
-        //List<MovieDetails> movieDetailsList = movieDetailService.getBestPictureWonOscar("Amadeus");
-        //assertNotNull(movieDetailsList);
+        when(movieDetailRepository.findFirstByNomineeAndCategory("Amadeus", "Best Picture")).thenReturn(movieDetails);
+        String msg = movieDetailService.getBestPictureWonOscar("Amadeus");
+        assertEquals(msg, "The movie Amadeus has won the award!");
     }
 
-  /*  @Test
+    @Test
     void testPostRatingToMovie() throws MovieNotFoundException {
         MovieDetails request = new MovieDetails();
         request.setWon("YES");
         request.setAcademyId(10);
         Movie movie = new Movie();
         movie.setMovieId(10L);
-        MovieDTO movieDTO = new MovieDTO();
-        movieDTO.setMovieId(10L);
-        movieDTO.setRating(1L);
-        when(movieRepository.findByMovieId(movieDTO.getMovieId())).thenReturn(movie);
-        Movie response = movieDetailService.postRatingToMovie(10L, movieDTO);
-        assertNotNull(response);
-    }*/
+        Rating rating = new Rating();
+        rating.setRatingId(2L);
+        rating.setRatingId(1L);
+        RatingDTO ratingDTO = new RatingDTO();
+        ratingDTO.setRating(2L);
+        when(movieRepository.findById(movie.getMovieId())).thenReturn(Optional.of(movie));
+        Rating rating1 = movieDetailService.postRatingToMovie(10L, ratingDTO);
+        verify(movieRepository, atLeastOnce()).findById(10L);
+    }
 
-  /*  @Test()
+    @Test()
     void testPostRatingToMovieException() throws MovieNotFoundException {
-        when(movieRepository.findByMovieId(any())).thenReturn(null);
+        when(movieRepository.findById(any())).thenReturn(Optional.empty());
         MovieNotFoundException thrown = assertThrows(
                 MovieNotFoundException.class,
-                () -> movieDetailService.postRatingToMovie(10L, new MovieDTO()),
+                () -> movieDetailService.postRatingToMovie(10L, new RatingDTO()),
                 "Expected postRatingToMovie() to throw, but it didn't"
         );
         assertTrue(thrown.getMessage().contains("Movie not found for id"));
@@ -72,31 +83,14 @@ public class MovieDetailServiceImplTest {
     }
 
     @Test
-    void testPostRatingToMovieWith() throws MovieNotFoundException {
-        MovieDetails request = new MovieDetails();
-        request.setWon("YES");
-        request.setAcademyId(10);
-        Movie movie = new Movie();
-        movie.setCount(1);
-        movie.setMovieName("Amadeus");
-        movie.setRating(1L);
-        MovieDTO movieDTO = new MovieDTO();
-        movieDTO.setMovieId(10L);
-        movieDTO.setRating(1L);
-        when(movieRepository.findByMovieId(movieDTO.getMovieId())).thenReturn(movie);
-        Movie response = movieDetailService.postRatingToMovie(10L, movieDTO);
+    void testFindTopRatedMovie() {
+        List<MovieWithRatings> movieWithRatings = new ArrayList<>();
+        MovieWithRatings movie = new MovieWithRatings();
+        movie.setMovieName("Avenger");
+        movie.setMovieId(1L);
+        movieWithRatings.add(movie);
+        when(movieRepository.getTopRatedMovies(10)).thenReturn(movieWithRatings);
+        List<MovieWithRatings> response = movieDetailService.findTopRatedMovie(10);
         assertNotNull(response);
     }
-
-    @Test
-    void testFindTopRatedMovie() {
-        List<Movie> movieList = new ArrayList<>();
-        Movie movie = new Movie();
-        movie.setRating(3L);
-        movie.setMovieId(1L);
-        movieList.add(movie);
-        when(movieRepository.getTopRatedMovies()).thenReturn(movieList);
-        List<Movie> response = movieDetailService.findTopRatedMovie();
-        assertNotNull(response);
-    }*/
 }

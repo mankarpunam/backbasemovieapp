@@ -32,8 +32,6 @@ public class MovieDetailServiceImpl implements MovieDetailService {
 
 	private static final String YES = "YES";
 	private static final String CATEGORY = "Best Picture";
-	Long avgRate = 0L;
-	int i = 0;
 
 	@Override
 	public String getBestPictureWonOscar(String movieName) throws MovieNotFoundException {
