@@ -27,7 +27,7 @@ import lombok.ToString;
 @NamedNativeQuery(name = "find_top_movies", 
 	query = "SELECT " + " m.movie_id as movieId,"
 		+ " m.movie_name as movieName, " + " avg(r.rating) as avgRating"
-		+ " from movie m left join rating r on r.movie_id= m.movie_id" + " group by m.movie_id"
+		+ " from movie m right join rating r on r.movie_id= m.movie_id" + " group by m.movie_id"
 		+ " order by avg(r.rating) desc NULLS LAST limit :dataLimit", resultSetMapping = "top_movies")
 @SqlResultSetMapping(name = "top_movies", classes = @ConstructorResult(targetClass = MovieWithRatings.class, 
 	columns = {

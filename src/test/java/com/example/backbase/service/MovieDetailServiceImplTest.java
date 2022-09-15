@@ -54,6 +54,18 @@ public class MovieDetailServiceImplTest {
     }
 
     @Test
+    void testGetBestOscarMovieError() throws MovieNotFoundException {
+        MovieDetails movieDetails = new MovieDetails();
+        movieDetails.setYear("2018");
+        movieDetails.setWon("YES");
+        List<MovieDetails> list = new ArrayList<>();
+        list.add(movieDetails);
+        when(movieDetailRepository.findFirstByNomineeAndCategory("Amadeus", "Best Picture")).thenReturn(null);
+        String msg = movieDetailService.getBestPictureWonOscar("Amadeus");
+        assertEquals(msg, "The movie Amadeus is not found in our database. Please check the name agian!");
+    }
+
+    @Test
     void testPostRatingToMovie() throws MovieNotFoundException {
         MovieDetails request = new MovieDetails();
         request.setWon("YES");
