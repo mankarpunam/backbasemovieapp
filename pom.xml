@@ -224,6 +224,16 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.5</version>
+				<configuration>
+					<excludes>
+						<exclude>"**/*com/backbase/movie/MovieApplication.class"</exclude>
+						<exclude>"**/handler/*"</exclude>
+						<exclude>**/exception/*</exclude>
+						<exclude>**/security/*</exclude>
+						<exclude>**/mapper/*</exclude>
+						<exclude>**/config/*</exclude>
+					</excludes>
+				</configuration>
 				<executions>
 					<execution>
 						<id>prepare-agent</id>
