@@ -19,10 +19,10 @@
 		<sonar.exclusions>
 		**/dto/*.java,
 		**/data/*.java,
-		**/repository/*.java,
+		**/repository/*.java*,
 		**/entity/*.java,
 		**/exception/*.java,
-		**/MovieApplication.java
+		**/MovieApplication.java*
 		</sonar.exclusions>
 	</properties>
 	<dependencies>
